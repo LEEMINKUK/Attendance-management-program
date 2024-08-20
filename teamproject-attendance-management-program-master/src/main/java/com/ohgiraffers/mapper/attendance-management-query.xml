@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <comment/>
+
+    <entry key="loginEMP">
+        SELECT *
+        FROM emp_info
+        WHERE emp_id = ?
+        AND emp_password = ?
+    </entry>
+
+    <entry key="insertNewEmp">
+        INSERT INTO emp_info (
+        emp_id,
+        emp_password,
+        emp_name,
+        phone,
+        email,
+        department_code,
+        position_code,
+        emp_identification,
+        payment_code
+        )
+        VALUES (
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?,
+        ?
+        )
+    </entry>
+
+    <entry key="retrieveByEmpId">
+        SELECT * FROM emp_info
+        WHERE emp_id = ?
+    </entry>
+
+    <entry key="retrieveByEmpPassword">
+        SELECT * FROM emp_info
+        WHERE emp_password = ?
+    </entry>
+
+    <entry key="changeEmpInfo">
+        UPDATE
+        emp_info
+        SET
+
+    </entry>
+
+    <entry key="updateEmpAttendance">
+        UPDATE attendance_record
+        SET arrival_at_work = ?,
+        leave_work = ?,
+        late_work = ?,
+        vacation = ?,
+        day_off = ?
+        WHERE date_code = ?
+        AND emp_id = ?
+
+    </entry>
+
+    <entry key="deleteEmp">
+        DELETE
+        FROM emp_info
+        WHERE emp_id = ?
+    </entry>
+
+    <entry key="dailyAttendance">
+        SELECT *
+        FROM attendance_record
+        WHERE emp_id = ?
+        AND date_code = ?
+    </entry>
+
+    <entry key="personalDailyAttendance">
+        SELECT A.emp_id,
+        A.date_code,
+        B.emp_name,
+        B.emp_password,
+        A.arrival_at_work,
+        A.leave_work,
+        A.late_work,
+        A.vacation,
+        A.day_off
+        FROM attendance_record A
+        JOIN emp_info B ON A.emp_id = B.emp_id
+        WHERE emp_password = ?
+        AND date_code = ?
+        ORDER BY date_code
+    </entry>
+
+    <entry key="personalPeriodAttendance">
+        SELECT A.emp_id,
+        A.date_code,
+        B.emp_name,
+        B.emp_password,
+        A.arrival_at_work,
+        A.leave_work,
+        A.late_work,
+        A.vacation,
+        A.day_off
+        FROM attendance_record A
+        JOIN emp_info B ON A.emp_id = B.emp_id
+        WHERE emp_password = ?
+        AND date_code BETWEEN ? AND ?
+        ORDER BY date_code
+
+    </entry>
+
+    <entry key="byPeriodAttendance">
+        SELECT A.*,
+        B.emp_name
+        FROM attendance_record A
+        JOIN emp_info B ON a.emp_id = b.emp_id
+        WHERE b.emp_id = ?
+        AND date_code
+        BETWEEN ? AND ?
+        ORDER BY date_code;
+    </entry>
+
+    <entry key="oneDayAllEmpAttendance">
+        SELECT A.date_code,
+        A.emp_id,
+        B.emp_name,
+        A.arrival_at_work,
+        A.leave_work,
+        A.late_work,
+        A.vacation,
+        A.day_off
+        FROM attendance_record A
+        JOIN EMP_INFO B on a.emp_id = b.emp_id
+        WHERE date_code = ?
+        ORDER BY A.emp_id
+    </entry>
+
+    <entry key="oneEmpPenalty">
+        SELECT
+        A.emp_id,
+        C.emp_name,
+        B.date_code,
+        A.penalty_factor,
+        A.penalty_score
+        FROM evaluation_list A
+        JOIN attendance_record B ON A.attendance_code = B.attendance_code
+        JOIN emp_info C ON A.emp_id = C.emp_id
+        WHERE A.emp_id = ?
+    </entry>
+
+    <entry key="personalPenalty">
+        SELECT  A.emp_id,
+        C.emp_name,
+        B.date_code,
+        A.penalty_factor,
+        A.penalty_score
+        FROM evaluation_list A
+        JOIN attendance_record B ON A.attendance_code = B.attendance_code
+        JOIN emp_info C ON A.emp_id = C.emp_id
+        WHERE C.emp_password = ?
+    </entry>
+
+    <entry key="personalMonthPenalty">
+        SELECT
+        A.emp_id,
+        C.emp_name,
+        B.month_name,
+        A.compensation_status,
+        A.penalty_status,
+        A.penalty_score_sum
+        FROM compensation A
+        JOIN check_month B ON A.month_code = b.month_code
+        JOIN emp_info C ON A.emp_id = C.emp_id
+        WHERE A.month_code = ?
+        AND C.emp_password = ?
+    </entry>
+
+    <entry key="monthAllEmpPenalty">
+        SELECT
+        A.emp_id,
+        C.emp_name,
+        B.month_name,
+        A.compensation_status,
+        A.penalty_status,
+        A.penalty_score_sum
+        FROM compensation A
+        JOIN check_month B ON A.month_code = b.month_code
+        JOIN emp_info C ON A.emp_id = C.emp_id
+        WHERE A.month_code = ?
+    </entry>
+
+    <entry key="allEmpInfo">
+        SELECT * FROM emp_info
+    </entry>
+
+    <entry key="departmentAllEmp">
+        SELECT * FROM emp_info
+        WHERE department_code = ?
+    </entry>
+
+    <entry key="departmentAllEmpAttendance">
+        SELECT a.date_code,
+        b.emp_id,
+        b.emp_name,
+        a.arrival_at_work,
+        a.leave_work,
+        a.late_work,
+        a.vacation,
+        a.day_off,
+        b.department_code
+        FROM attendance_record a
+        JOIN emp_info b on a.emp_id = b.emp_id
+        WHERE b.department_code = ?
+    </entry>
+
+    <entry key="departmentAllEmpDailyAttendance">
+        SELECT a.date_code,
+        b.emp_id,
+        b.emp_name,
+        a.arrival_at_work,
+        a.leave_work,
+        a.late_work,
+        a.vacation,
+        a.day_off,
+        b.department_code
+        FROM attendance_record a
+        JOIN emp_info b on a.emp_id = b.emp_id
+        WHERE b.department_code = ?
+        AND a.date_code = ?
+    </entry>
+
+    <entry key="departmentAllEmpPeriodAttendance">
+        SELECT a.date_code,
+        b.emp_id,
+        b.emp_name,
+        a.arrival_at_work,
+        a.leave_work,
+        a.late_work,
+        a.vacation,
+        a.day_off,
+        b.department_code
+        FROM attendance_record a
+        JOIN emp_info b on a.emp_id = b.emp_id
+        WHERE b.department_code = ?
+        AND a.date_code BETWEEN ? AND ?
+        ORDER BY date_code
+    </entry>
+
+    <entry key="departmentEmpMonthPenalty">
+        SELECT A.month_code,
+        A.emp_id,
+        B.emp_name,
+        B.department_code,
+        A.compensation_status,
+        A.penalty_status,
+        A.penalty_score_sum
+        FROM compensation A
+        JOIN emp_info B on A.emp_id = B.emp_id
+        WHERE B.department_code = ?
+        AND A.month_code = ?
+        ORDER BY emp_id
+    </entry>
+
+    <entry key="checkLoginMgr">
+        SELECT
+        emp_identification
+        FROM emp_info
+        WHERE emp_password = ?
+    </entry>
+
+    <entry key="checkMgrDepartment">
+        SELECT department_code
+        FROM emp_info
+        WHERE emp_password = ?
+    </entry>
+
+    <entry key="checkId">
+        SELECT emp_id
+        FROM emp_info
+        WHERE emp_id = ?
+    </entry>
+
+    <entry key="checkPwd">
+        SELECT emp_password
+        FROM emp_info
+        WHERE emp_password = ?
+    </entry>
+
+    <entry key="checkDate">
+        SELECT date_code
+        FROM attendance_record
+        WHERE date_code = ?
+    </entry>
+
+    <entry key="checkMonth">
+        SELECT month_code
+        FROM compensation
+        WHERE month_code = ?
+    </entry>
+
+    <entry key="countId">
+        SELECT SUM(count) AS total_sum
+        FROM (
+        SELECT COUNT(emp_id) AS count
+        FROM emp_info
+        GROUP BY emp_id ) AS count_id;
+    </entry>
+
+</properties>
